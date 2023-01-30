@@ -46,7 +46,6 @@
             echo '
         <div class="message">
           <span>'.$message.'</span>
-        /* symbole de croix pour la fermeture */
           <i class="fas fa-times" onclick="this.parentElement.remove();"></i>
        </div>
        ';
