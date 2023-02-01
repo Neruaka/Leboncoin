@@ -8,7 +8,7 @@ include 'connexion.php';
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pasleboncoin</title>
-    <link rel="stylesheet" href="css/stylehp.css">
+    <link rel="stylesheet" href="CSS/stylehp.css">
 </head>
 <body>
     <?php
@@ -22,11 +22,11 @@ include 'connexion.php';
 ?>
                                                                     <!-- Search bar body -->
     <h2 class="centeredtitle"> Il n'y a aucune annonce sur ce site mais vous pouvez quand meme faire une recherche.</h2>
-    <div class="cent">
+    <div class="cent" style="margin-right: 10%; margin-left: 10%;">
         <div class="container">
             <div class="recherche-text">
                 <h1>Faites votre recherche.</h1>
-                    <div class="arr">
+                    <div class="rechrectangle">
                         <form action="" method="post">
                         <div class="div-search-cat">
                             <label class="search-cat">Catégorie</label>
@@ -42,7 +42,8 @@ include 'connexion.php';
                                 ?>
                             </select>
                         </div>
-                        <p><input type="text" name="recherche" placeholder="Que ne recherchez-vous pas :"></p>
+                        <div class='rectangle'>
+                            <p><input type="text" name="recherche" placeholder="Que ne recherchez-vous pas :" style="height: 29px;"></p>
                             <?php
                                 if (isset($_POST['bout'])){
                                     $recherche = $_POST['recherche'];
@@ -52,7 +53,10 @@ include 'connexion.php';
                                     $res2 = mysqli_query($connexion, $req2);
                                 }
                             ?>
-                        <p><input type="submit" value="Rechercher" name="bout"></p>
+                        </div>
+                        <div class='elbouton'>
+                            <p><input type="submit" value="Rechercher" name="bout" class="searchbutton"></p>
+                        </div>
                     </form>
 
 
@@ -64,23 +68,37 @@ include 'connexion.php';
 
 <br>
 <?php 
-    if(!isset($res1)){
-        foreach ($res2 as $papayo) {
+    if(isset($_POST['bout'])){
+        foreach ($res2 as $req2tab) {
             echo "
-                <div class='totota'>
-                    <img src='images/" . $papayo["image"] . "'>
-                    <p>" . $papayo["name"] . "</p>
-                    <p>" . $papayo["description"] . "</p>
-                </div>";
+                <div class='Prods'>
+                    <a class='pistache' href='#'>
+                    <p class='prodname'>" . $req2tab["name"] . "</p>
+                    <div class='prodstuff'>
+                        <div class = 'prodpic'>
+                            <img class='imghp' src='images/" . $req2tab["image"] . "'>
+                        </div>
+                            <p class = 'prodesc'>" . $req2tab["description"] . "</p>
+                            <p class = 'prodprice'>" . $req2tab["price"] . " € </p>
+                    </div>
+                    </a>
+                </div>
+                <br>";
         }
     } else{ 
-        foreach($res1 as $papaya){
+        foreach($res1 as $req1tab){
             echo "
-                <div class='totota'>
-                    <img src='images/".$papaya["image"]."'>
-                    <p>".$papaya["name"]. "</p>
-                    <p>".$papaya["description"]. "</p>
-                </div>";
+                <div class='Prods'>
+                <p class='prodname'>" . $req1tab["name"] . "</p>
+                <div class='prodstuff'>
+                    <div class = 'prodpic'>
+                        <img class='imghp' src='images/" . $req1tab["image"] . "'>
+                    </div>
+                        <p class = 'prodesc'>" . $req1tab["description"] . "</p>
+                        <p class = 'prodprice'>" . $req1tab["price"] . " € </p>
+                </div>
+            </div>
+            <br>";
         }
     }
 ?>

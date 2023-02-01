@@ -39,8 +39,8 @@ if(isset($_POST['submit'])){
         $test3 = $rowcate['id'];
 
         // ajout du produit
-       $req = "INSERT INTO product (idp, idu, name, description, price, ids, Image, idc) 
-       VALUES(NULL,'$test1' , '$productdesc', '$productstate', '$productprice', '$test2','$imageprod', '$test3')";
+       $req = "INSERT INTO product (idp, idu, name, description,ids , price, Image, idc) 
+              VALUES(NULL,'$test1', '$productname', '$productdesc', '$test2', '$productprice','$imageprod', '$test3')";
         mysqli_query($connexion, $req);
         $message[] = "Successfully added";
   
