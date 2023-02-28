@@ -1,5 +1,5 @@
 <?php 
-session_start();
+// session_start();
     // test pour voir si les donnees sont bien prises en compte
         //   var_dump($_POST);//affichage des infos du formulaire
         //   var_dump($_FILES);

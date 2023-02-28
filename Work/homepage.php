@@ -1,5 +1,6 @@
 <?php
-include 'connexion.php';
+include 'scripts/connexion.php';
+session_start();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -8,14 +9,14 @@ include 'connexion.php';
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pasleboncoin</title>
-    <link rel="stylesheet" href="CSS/stylehp.css">
+    <link rel="stylesheet"  href="CSS/stylehp.css">
 </head>
 <body>
     <?php
         if(!isset($_SESSION['user_name'])){
-            include 'headerc.php';
+            include 'scripts/headernc.php';
         }else{
-            include 'headernc.php';
+            include 'scripts/headerc.php';
         }
     $res1 = [];
     $res2 = [];
@@ -31,6 +32,7 @@ include 'connexion.php';
                         <div class="div-search-cat">
                             <label class="search-cat">Catégorie</label>
                             <select class="formcat" name="formcat">
+                                <option value="vide">-----</option>
                                 <?php
                                     $req = "select id, nom from categories order by id";
                                     $res = mysqli_query($connexion, $req);
@@ -43,7 +45,7 @@ include 'connexion.php';
                             </select>
                         </div>
                         <div class='rectangle'>
-                            <p><input type="text" name="recherche" placeholder="Que ne recherchez-vous pas :" style="height: 29px;"></p>
+                            <p><input type="text" name="recherche" placeholder="Que recherchez-vous" style="height: 29px;"></p>
                             <?php
                                 if (isset($_POST['bout'])){
                                     $recherche = $_POST['recherche'];
@@ -51,42 +53,66 @@ include 'connexion.php';
                                     $res1 = mysqli_query($connexion, $req1);
                                     $req2 = "select image, name, description, price from product";  
                                     $res2 = mysqli_query($connexion, $req2);
+                                    $req3 = "select image, name, description, price from product where idc = " . $_POST['formcat'];
+                                    $res3 = mysqli_query($connexion, $req3);
+                                    $req4 = "select image, name, description, price from product where name like '%" . $recherche . "%'";  
+                                    $res4 = mysqli_query($connexion, $req4);
+                                    $test = '';
                                 }
                             ?>
                         </div>
                         <div class='elbouton'>
                             <p><input type="submit" value="Rechercher" name="bout" class="searchbutton"></p>
                         </div>
-                    </form>
-
-
-                </div>
-                </div>
+                        </form>
+                    </div>
+            </div>
         </div>
     </div>
                                                                     <!-- End searchbar body -->
 
 <br>
 <?php 
+
+// si la cate est vide (donc add empty cat) alors ca recherche dans tt  
     if(isset($_POST['bout'])){
-        foreach ($res2 as $req2tab) {
-            echo "
-                <div class='Prods'>
-                    <a class='pistache' href='#'>
-                    <p class='prodname'>" . $req2tab["name"] . "</p>
+        if ($_POST['formcat']=="vide" && empty($_POST['recherche'])) {
+            echo "test---------------------";
+            foreach ($res2 as $req2tab) {
+                echo "
+                    <div class='Prods'>
+                        <a class='pistache' href='#'>
+                        <p class='prodname'>" . $req2tab["name"] . "</p>
+                        <div class='prodstuff'>
+                            <div class = 'prodpic'>
+                                <img class='imghp' src='images/" . $req2tab["image"] . "'>
+                            </div>
+                                <p class = 'prodesc'>" . $req2tab["description"] . "</p>
+                                <p class = 'prodprice'>" . $req2tab["price"] . " € </p>
+                        </div>
+                        </a>
+                    </div>
+                    <br>";
+            }
+        } elseif ($_POST['formcat']!="vide" && empty($_POST['recherche'])){ 
+            foreach($res3 as $req1tab){
+                echo "
+                    <div class='Prods'>
+                    <p class='prodname'>" . $req1tab["name"] . "</p>
                     <div class='prodstuff'>
                         <div class = 'prodpic'>
-                            <img class='imghp' src='images/" . $req2tab["image"] . "'>
+                            <img class='imghp' src='images/" . $req1tab["image"] . "'>
                         </div>
-                            <p class = 'prodesc'>" . $req2tab["description"] . "</p>
-                            <p class = 'prodprice'>" . $req2tab["price"] . " € </p>
+                            <p class = 'prodesc'>" . $req1tab["description"] . "</p>
+                            <p class = 'prodprice'>" . $req1tab["price"] . " € </p>
                     </div>
-                    </a>
                 </div>
                 <br>";
-        }
-    } else{ 
-        foreach($res1 as $req1tab){
+            }
+        
+    }
+    elseif ($_POST['formcat']=="vide"){ 
+        foreach($res4 as $req1tab){
             echo "
                 <div class='Prods'>
                 <p class='prodname'>" . $req1tab["name"] . "</p>
@@ -100,7 +126,9 @@ include 'connexion.php';
             </div>
             <br>";
         }
-    }
+    
+}
+    } 
 ?>
 </body>
 </html>

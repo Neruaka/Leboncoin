@@ -1,6 +1,5 @@
 <?php
-include 'connexion.php';
-session_start();
+include 'scripts/connexion.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,13 +15,13 @@ session_start();
     <!--        Nav bar         -->
     <nav id="navbar" class="nav">
       <div display="flex" class="pgm">
-        <img src="images/logo.png" alt="Logo" class="logo">
+        <a href="homepage.php"> <img src="images/logo.png" alt="Logo" class="logo"></a>
         <a href="addproduct.php" class="btn_annonce">
-          <img src="images/plus.png" alt="btn_plus" class="top_plus_btn">Deposer une annonce
+          <img src="images/pluss.png" alt="btn_plus" class="top_plus_btn" style="margin-right: 6px;">Deposer une annonce
         </a>
-        <form class="search-container">
-          <!-- <input type="image" names="submit" src="../images/loupe.png" class="top_plus_btn" /> -->
-          <input type="text" id="search-bar" placeholder="Que desirez-vous ?">
+        <form action="" method="post" class="search-container">
+          <img src="images/loupe.png" alt="btn_plus" class="top_plus_btn" style="margin-right: 6px;">
+          <input type="text" id="search-bar" placeholder="Rechercher">
         </form>
       </div>
       <div display="flex" class="connexion">
@@ -40,16 +39,16 @@ session_start();
       <div class="ducros">
         <ul class="categories">
           <li>
-            <a href="#">Véhicules</a>
+          <a href="homepageVehicules.php">Véhicules</a>
           </li>
           <li>
-            <a href="#">Mode</a>
+            <a href="homepageMode.php">Mode</a>
           </li>
           <li>
-            <a href="#">Multimedia</a>
+            <a href="homepageMultimedia.php">Multimedia</a>
           </li>
           <li>
-            <a href="#">Autres</a>
+            <a href="homepageAutres.php">Autres</a>
           </li>
         </ul>
       </div>

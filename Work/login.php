@@ -1,5 +1,5 @@
 <?php 
-include 'connexion.php';
+include 'scripts/connexion.php';
 // Demmare une session
 session_start();
 ?>
@@ -31,7 +31,7 @@ session_start();
                $_SESSION['user_name'] = $row['username'];
                $_SESSION['user_email'] = $row['mail'];
                $_SESSION['user_id'] = $row['id'];
-               header('refresh:2; url=homepage.php');
+               header('refresh:1; url=homepage.php');
                $message[] = "Connection success";
             } else{
                $message[] = "Connection failed";
