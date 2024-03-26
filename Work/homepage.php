@@ -1,134 +1,86 @@
 <?php
-include 'scripts/connexion.php';
 session_start();
+ require 'htmlbasics.php';
+ require 'connexion.php';
+
+  $query = "SELECT idp, name, price, image FROM product ORDER BY RAND() LIMIT 3";
+  $result = mysqli_query($connexion, $query);
+  $annonces = mysqli_fetch_all($result, MYSQLI_ASSOC);
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pasleboncoin</title>
-    <link rel="stylesheet"  href="CSS/stylehp.css">
-</head>
-<body>
-    <?php
-        if(!isset($_SESSION['user_name'])){
-            include 'scripts/headernc.php';
-        }else{
-            include 'scripts/headerc.php';
-        }
-    $res1 = [];
-    $res2 = [];
+<body data-bs-theme="dark">
+<?php
+if(isset($_SESSION['user_name']) && !empty($_SESSION['user_name'])){
+  include 'scripts/headerc.php'; 
+}else{
+  include 'scripts/headernc.php';
+}
 ?>
-                                                                    <!-- Search bar body -->
-    <h2 class="centeredtitle"> Il n'y a aucune annonce sur ce site mais vous pouvez quand meme faire une recherche.</h2>
-    <div class="cent" style="margin-right: 10%; margin-left: 10%;">
-        <div class="container">
-            <div class="recherche-text">
-                <h1>Faites votre recherche.</h1>
-                    <div class="rechrectangle">
-                        <form action="" method="post">
-                        <div class="div-search-cat">
-                            <label class="search-cat">Catégorie</label>
-                            <select class="formcat" name="formcat">
-                                <option value="vide">-----</option>
-                                <?php
-                                    $req = "select id, nom from categories order by id";
-                                    $res = mysqli_query($connexion, $req);
-                                    // die(var_dump(mysqli_fetch_assoc($res)));
-                                    while($ligne = mysqli_fetch_assoc($res)){ ?>
-                                            <option value="<?=$ligne["id"]?>"><?=$ligne["nom"]?></option>
-                                            <?php 
-                                    }
-                                ?>
-                            </select>
-                        </div>
-                        <div class='rectangle'>
-                            <p><input type="text" name="recherche" placeholder="Que recherchez-vous" style="height: 29px;"></p>
-                            <?php
-                                if (isset($_POST['bout'])){
-                                    $recherche = $_POST['recherche'];
-                                    $req1 = "select image, name, description, price from product where name like '%" . $recherche . "%' and idc = " . $_POST['formcat'];  
-                                    $res1 = mysqli_query($connexion, $req1);
-                                    $req2 = "select image, name, description, price from product";  
-                                    $res2 = mysqli_query($connexion, $req2);
-                                    $req3 = "select image, name, description, price from product where idc = " . $_POST['formcat'];
-                                    $res3 = mysqli_query($connexion, $req3);
-                                    $req4 = "select image, name, description, price from product where name like '%" . $recherche . "%'";  
-                                    $res4 = mysqli_query($connexion, $req4);
-                                    $test = '';
-                                }
-                            ?>
-                        </div>
-                        <div class='elbouton'>
-                            <p><input type="submit" value="Rechercher" name="bout" class="searchbutton"></p>
-                        </div>
-                        </form>
+  <title>Acceuil</title>
+  <div class="container px-4 py-5" id="Top-announces">
+    <h2 class="pb-2 border-bottom">Annonces à la une</h2>
+    <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
+        <?php foreach ($annonces as $annonce): ?>
+        <div class="col">
+            <div class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg" style="background-image: url('<?php echo htmlspecialchars($annonce['image']); ?>'); background-size: cover; opacity: 0.3; ">
+
+                <div class="d-flex flex-column h-100 p-5 pb-3 text-shadow-1">
+                    <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold" style="color: white;"><?php echo htmlspecialchars($annonce['name']); ?></h3>
+                    <div class="d-flex justify-content-between">
+                        <small class="text-white"><?php echo htmlspecialchars($annonce['price']); ?> €</small>
                     </div>
+                </div>
+            </div>
+        </div>
+        <?php endforeach; ?>
+    </div>
+</div>
+<div class="b-example-divider"></div>
+<div class="container py-4">
+    <div class="row">
+        <div class="col-lg-6 mx-auto">
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Rechercher une annonce" id="searchQueryInput">
+                <button class="btn btn-outline-secondary" type="button" id="searchButton">Rechercher</button>
             </div>
         </div>
     </div>
-                                                                    <!-- End searchbar body -->
-
-<br>
-<?php 
-
-// si la cate est vide (donc add empty cat) alors ca recherche dans tt  
-    if(isset($_POST['bout'])){
-        if ($_POST['formcat']=="vide" && empty($_POST['recherche'])) {
-            echo "test---------------------";
-            foreach ($res2 as $req2tab) {
-                echo "
-                    <div class='Prods'>
-                        <a class='pistache' href='#'>
-                        <p class='prodname'>" . $req2tab["name"] . "</p>
-                        <div class='prodstuff'>
-                            <div class = 'prodpic'>
-                                <img class='imghp' src='images/" . $req2tab["image"] . "'>
-                            </div>
-                                <p class = 'prodesc'>" . $req2tab["description"] . "</p>
-                                <p class = 'prodprice'>" . $req2tab["price"] . " € </p>
-                        </div>
-                        </a>
-                    </div>
-                    <br>";
-            }
-        } elseif ($_POST['formcat']!="vide" && empty($_POST['recherche'])){ 
-            foreach($res3 as $req1tab){
-                echo "
-                    <div class='Prods'>
-                    <p class='prodname'>" . $req1tab["name"] . "</p>
-                    <div class='prodstuff'>
-                        <div class = 'prodpic'>
-                            <img class='imghp' src='images/" . $req1tab["image"] . "'>
-                        </div>
-                            <p class = 'prodesc'>" . $req1tab["description"] . "</p>
-                            <p class = 'prodprice'>" . $req1tab["price"] . " € </p>
-                    </div>
-                </div>
-                <br>";
-            }
-        
-    }
-    elseif ($_POST['formcat']=="vide"){ 
-        foreach($res4 as $req1tab){
-            echo "
-                <div class='Prods'>
-                <p class='prodname'>" . $req1tab["name"] . "</p>
-                <div class='prodstuff'>
-                    <div class = 'prodpic'>
-                        <img class='imghp' src='images/" . $req1tab["image"] . "'>
-                    </div>
-                        <p class = 'prodesc'>" . $req1tab["description"] . "</p>
-                        <p class = 'prodprice'>" . $req1tab["price"] . " € </p>
+</div>
+<div class="container">
+    <div class="row">
+        <?php foreach ($annonces as $annonce): ?>
+        <div class="col-md-4 mb-4"data-name="<?php echo strtolower(htmlspecialchars($annonce['name'])); ?>">
+            <div class="card">
+                <img src="<?php echo htmlspecialchars($annonce['image']); ?>" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title"><?php echo htmlspecialchars($annonce['name']); ?></h5>
+                    <p class="card-text"><?php echo htmlspecialchars($annonce['price']); ?> €</p>
+                    <!-- Bouton Voir plus avec lien dynamique -->
+                    <a href="detailProduit.php?idp=<?php echo htmlspecialchars($annonce['idp']); ?>" class="btn btn-primary">Voir plus</a>
                 </div>
             </div>
-            <br>";
+        </div>
+        <?php endforeach; ?>
+    </div>
+</div>
+
+
+
+  <div class="b-example-divider"></div>
+  <script>
+document.getElementById('searchButton').addEventListener('click', function() {
+    var searchQuery = document.getElementById('searchQueryInput').value.toLowerCase();
+    var annonces = document.querySelectorAll('[data-name]');
+
+    annonces.forEach(function(annonce) {
+        var name = annonce.getAttribute('data-name');
+        if (name.includes(searchQuery)) {
+            annonce.style.display = '';
+        } else {
+            annonce.style.display = 'none';
         }
-    
-}
-    } 
-?>
+    });
+});
+</script>
+
 </body>
 </html>

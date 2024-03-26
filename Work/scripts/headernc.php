@@ -1,52 +1,30 @@
-<?php
-include 'scripts/connexion.php';;
-?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Page d'acceuil</title>
-  <link rel="stylesheet" href="CSS/styleheader.css">
-</head>
-<body>
-  <header class="header">
-    <!--        Nav bar         -->
-    <nav id="navbar" class="nav">
-      <div display="flex" class="pgm">
-        <a href="homepage.php"> <img src="images/logo.png" alt="Logo" class="logo"></a>
-        <a href="login.php" class="btn_annonce">
-          <img src="images/pluss.png" alt="btn_plus" class="top_plus_btn" style="margin-right: 6px;">Deposer une annonce</a>
-          <form action="" method="post" class="search-container">
-          <img src="images/loupe.png" alt="btn_plus" class="top_plus_btn" style="margin-right: 6px;">
-          <input type="text" id="search-bar" placeholder="Rechercher">
-        </form>
-      </div>
-      <div display="flex" class="connexion"   style="justify-content: flex-start;">
-        <a href="login.php" class="top_right">
-          <img src="images/connect.png" alt="Connexion_img" class="top_plus_btn">Se connecter
+<header class="p-3 mb-3 border-bottom shadow-sm">
+    <div class="container">
+      <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+        <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 link-body-emphasis text-decoration-none">
+          <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>
         </a>
-      </div>
-      <div class="ducros">
-        <ul class="categories">
-          <li>
-            <a href="homepageVehicules.php">Véhicules</a>
-          </li>
-          <li>
-            <a href="homepageMode.php">Mode</a>
-          </li>
-          <li>
-            <a href="homepageMultimedia.php">Multimedia</a>
-          </li>
-          <li>
-            <a href="homepageAutres.php">Autres</a>
-          </li>
-        </ul>
-      </div>
-    </nav>
-    <!--        Fin Navbar        -->
-  </header>
-</body>
 
-</html>
+        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+          <li><a href="#" class="nav-link px-2 link-secondary">Acceuil</a></li>
+          <li><a href="categorie.php?idc=1" class="nav-link px-2 link-secondary">Véhicules</a></li>
+          <li><a href="categorie.php?idc=2" class="nav-link px-2 link-body-emphasis">Mode</a></li>
+          <li><a href="categorie.php?idc=3" class="nav-link px-2 link-body-emphasis">Multimédia</a></li>
+          <li><a href="categorie.php?idc=4" class="nav-link px-2 link-body-emphasis">Autres</a></li><li>
+        </ul>
+
+        <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search" data-dashlane-rid="92123ecbad3b1d30" data-form-type="">
+          <input type="search" class="form-control" placeholder="Rechercher..." aria-label="Search" data-dashlane-rid="758b8d842892d347" data-form-type="">
+        </form>
+
+        <div class="text-end">
+        <a href="connexionhp.php">
+          <button type="button" class="btn btn-outline-light me-2">Se connecter</button>
+        </a>
+          <a href="inscription.php">
+            <button type="button" class="btn btn-warning">S'inscrire</button>
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
